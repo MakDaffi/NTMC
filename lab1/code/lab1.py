@@ -48,7 +48,7 @@ def check_coprime(m):
     return True
 
 
-def first_theorem(u, m, M):
+def greco_chinese_theorem(u, m, M):
     x = 0
     for i in range(len(m)):
         c = M // m[i]
@@ -121,10 +121,9 @@ def gauss_algorithm(A, B, m):
             swap_rows(A, B, current_row, column)
         if A[column][column] != 0:
             divide_row(A, B, column, A[column][column], m)
-        for r in range(column + 1, len(A)):
-            combine_rows(A, B, r, column, -A[r][column], m)
-        for r in range(0, column):
-            combine_rows(A, B, r, column, -A[r][column], m)
+        for row in range(len(A)):
+            if row != column:
+                combine_rows(A, B, row, column, -A[row][column], m)
         A, B = drop_trivial_row(A, B)
         column += 1
     return A, B
@@ -163,7 +162,7 @@ def task2():
     print("Your system of comparisons")
     print(comp)
     if check_coprime(m):
-        print(f"x = {first_theorem(u, m, M)}")
+        print(f"x = {greco_chinese_theorem(u, m, M)}")
         print("Garner's algorithm:")
         x, q = garner_algorithm(u, m)
         print(f"q : {q}\nx = {x}")
@@ -172,7 +171,7 @@ def task2():
 
 
 def task3():
-    rows = int(input("Enter number of rows:"))
+    rows = int(input("Enter number of rows: "))
     print("Enter matrix of odds")
     A = [list(map(int, (input(f"row {i+1}: ").split()))) for i in range(rows)]
     B = list(map(int, input("Enter free terms of the equation: ").split()))
@@ -191,4 +190,20 @@ def task3():
             print("No solutions!")
 
 
-task3()
+def main_loop():
+    while True:
+        print('Tasks:\n1.GCD\n2.Solutions to comparison systems\n3.Solution for a system of linear equations')
+        task_num = int(input('Enter number of task: '))
+        print()
+        match task_num:
+            case 1:
+                task1()
+            case 2:
+                task2()
+            case 3:
+                task3()
+            case _:
+                print("Wrong input!\n")
+
+if __name__ == '__main__':
+    main_loop()
