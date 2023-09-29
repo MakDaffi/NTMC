@@ -35,8 +35,6 @@ def find_comparison_solution(a, b, m):
     b = b // d
     m = m // d
     x = extended_gcd(a, m)[1] * b % m
-    if x < 0:
-        x = m + x
     return x
 
 
@@ -69,8 +67,6 @@ def garner_algorithm(u, m):
         for j in range(i):
             q[i] = c[j][i] * (q[i] - q[j])
             q[i] = q[i] % m[i]
-            if q[i] < 0:
-                q[i] += m[i]
     m_iter = 1
     x = 0
     for i in range(len(m)):
@@ -155,7 +151,7 @@ def task2():
     print("Enter comparisons (format u m)")
     for _ in range(n):
         u_i, m_i = map(int, input().split(" "))
-        comp += f"x ≡ {u_i} (mod {m_i})\n"
+        comp += f"x \u2261 {u_i} (mod {m_i})\n"
         M *= m_i
         u.append(u_i)
         m.append(m_i)
@@ -192,7 +188,7 @@ def task3():
 
 def main_loop():
     while True:
-        print('Tasks:\n1.GCD\n2.Solutions to comparison systems\n3.Solution for a system of linear equations')
+        print('Tasks:\n1.GCD\n2.Solutions to comparison systems\n3.Solution for a system of linear equations\n4.Exit')
         task_num = int(input('Enter number of task: '))
         print()
         match task_num:
@@ -202,6 +198,8 @@ def main_loop():
                 task2()
             case 3:
                 task3()
+            case 4:
+                break
             case _:
                 print("Wrong input!\n")
 
